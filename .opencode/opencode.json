@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "openai/gpt-5.5",
-  "small_model": "openai/gpt-5.4-mini-fast",
+  "model": "openai/gpt-5.6-terra",
+  "small_model": "openai/gpt-5.6-luna",
   "default_agent": "build",
   "server": {
     "hostname": "127.0.0.1",
@@ -27,7 +27,8 @@
     "orchestrator": {
       "description": "Root Supervisor and Entry Point for large project workflows.",
       "mode": "primary",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-sol",
+      "variant": "high",
       "prompt": "1. ROOT ANCHORING: Always anchor yourself in the conversation root. 2. BOOT SEQUENCE: Your very first action MUST be to read `.opencode/instructions/INSTRUCTIONS.md` and then traverse all files in `plans/`. {file:agents/orchestrator.md}",
       "tools": {
         "read": true,
@@ -40,7 +41,8 @@
     "reducer": {
       "description": "Output synthesis specialist for merging parallel task results.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-luna",
+      "variant": "low",
       "prompt": "{file:agents/reducer.md}",
       "tools": {
         "read": true,
@@ -52,7 +54,8 @@
     "build": {
       "description": "Primary coding agent for development work",
       "mode": "primary",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/build.md}",
       "tools": {
         "write": true,
@@ -65,7 +68,8 @@
     "planner": {
       "description": "Pure task decomposition specialist. Analyzes complex requirements and breaks them into atomic, executable steps for domain specialists. NEVER writes code.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/planner.md}",
       "tools": {
         "read": true,
@@ -78,7 +82,8 @@
     "architect": {
       "description": "Software architecture specialist for system design, scalability, and technical decision-making.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-sol",
+      "variant": "high",
       "prompt": "1. ROOT ANCHORING: Immediately verify your root directory. 2. BOOT SEQUENCE: Your very first action MUST be to read `.opencode/instructions/INSTRUCTIONS.md` and then traverse all files in `plans/` (especially scope hubs, task files, and `INSTRUCTIONS.md`). You are not permitted to provide architectural guidance until this context is synchronized. {file:agents/architect.md}",
       "tools": {
         "read": true,
@@ -91,7 +96,8 @@
     "code-reviewer": {
       "description": "Expert code review specialist. Reviews code for quality, security, and maintainability. Use immediately after writing or modifying code.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/code-reviewer.md}",
       "tools": {
         "read": true,
@@ -103,7 +109,8 @@
     "security-reviewer": {
       "description": "Security vulnerability detection and remediation specialist. Use after writing code that handles user input, authentication, API endpoints, or sensitive data.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-sol",
+      "variant": "high",
       "prompt": "{file:agents/security-reviewer.md}",
       "tools": {
         "read": true,
@@ -115,7 +122,8 @@
     "harness-security-engineer": {
       "description": "Use ONLY when editing or reviewing OpenCode harness security surfaces: opencode.json permissions/server config, .opencode plugins/hooks, MCP exposure, local audit logging, or security policy tests.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-sol",
+      "variant": "high",
       "prompt": "{file:agents/harness-security-engineer.md}",
       "tools": {
         "read": true,
@@ -128,7 +136,8 @@
     "prompt-injection-analyst": {
       "description": "Use ONLY when analyzing prompt-injection, untrusted web/repository/MCP content, synthetic tool-event text, or adversarial instructions before they reach implementation context.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-sol",
+      "variant": "high",
       "prompt": "{file:agents/prompt-injection-analyst.md}",
       "tools": {
         "read": true,
@@ -141,7 +150,8 @@
     "hook-policy-engineer": {
       "description": "Use ONLY when implementing deterministic tool-policy hooks, bash/file-tool deny logic, portable hook scripts, hook tests, or hook export behavior.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-sol",
+      "variant": "high",
       "prompt": "{file:agents/hook-policy-engineer.md}",
       "tools": {
         "read": true,
@@ -154,7 +164,8 @@
     "context-budget-auditor": {
       "description": "Use ONLY when auditing token/context overhead from eager instructions, agent descriptions, skills, commands, MCPs, plans, traces, or orchestration behavior.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-luna",
+      "variant": "low",
       "prompt": "{file:agents/context-budget-auditor.md}",
       "tools": {
         "read": true,
@@ -167,7 +178,8 @@
     "mcp-supply-chain-auditor": {
       "description": "Use ONLY when reviewing MCP server configuration, npx/uvx/pip package pinning, MCP credentials, remote MCP trust, or dependency-install risk.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/mcp-supply-chain-auditor.md}",
       "tools": {
         "read": true,
@@ -180,7 +192,8 @@
     "incident-forensics-analyst": {
       "description": "Use ONLY when investigating suspicious OpenCode sessions, opencode.db/log evidence, synthetic tool events, network exposure, or local incident timelines.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-sol",
+      "variant": "high",
       "prompt": "{file:agents/incident-forensics-analyst.md}",
       "tools": {
         "read": true,
@@ -193,7 +206,8 @@
     "tdd-guide": {
       "description": "Test-Driven Development specialist enforcing write-tests-first methodology. Use when writing new features, fixing bugs, or refactoring code. Ensures 80%+ test coverage.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/tdd-guide.md}",
       "tools": {
         "read": true,
@@ -213,7 +227,8 @@
     "build-error-resolver": {
       "description": "Build and TypeScript error resolution specialist. Use when build fails or type errors occur. Fixes build/type errors only with minimal diffs.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/build-error-resolver.md}",
       "tools": {
         "read": true,
@@ -225,7 +240,8 @@
     "e2e-runner": {
       "description": "End-to-end testing specialist using Playwright. Generates, maintains, and runs E2E tests for critical user flows.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/e2e-runner.md}",
       "tools": {
         "read": true,
@@ -237,7 +253,8 @@
     "doc-updater": {
       "description": "Documentation and codemap specialist. Use for updating codemaps and documentation.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-luna",
+      "variant": "low",
       "prompt": "{file:agents/doc-updater.md}",
       "tools": {
         "read": true,
@@ -249,7 +266,8 @@
     "refactor-cleaner": {
       "description": "Dead code cleanup and consolidation specialist. Use for removing unused code, duplicates, and refactoring.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/refactor-cleaner.md}",
       "tools": {
         "read": true,
@@ -261,7 +279,8 @@
     "database-reviewer": {
       "description": "PostgreSQL database specialist for query optimization, schema design, security, and performance. Incorporates Supabase best practices.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/database-reviewer.md}",
       "tools": {
         "read": true,
@@ -273,7 +292,8 @@
     "critic": {
       "description": "Enterprise adversarial reviewer. Stress-tests proposals, plans, code, and architecture for edge cases, security flaws, architectural debt, and hidden risks.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-sol",
+      "variant": "high",
       "prompt": "{file:agents/critic.md}",
       "tools": {
         "read": true,
@@ -286,7 +306,8 @@
     "researcher": {
       "description": "General-purpose research specialist with broad knowledge spanning technical and non-technical domains.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/researcher.md}",
       "tools": {
         "read": true,
@@ -299,7 +320,8 @@
     "fact-checker": {
       "description": "Unbiased verification specialist who looks for hallucinations, inaccuracies, and outdated information.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/fact-checker.md}",
       "tools": {
         "read": true,
@@ -312,7 +334,8 @@
     "frontend-engineer": {
       "description": "Frontend implementation specialist. Writes UI components, layouts, pages, and ensures design system compliance.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/frontend-engineer.md}",
       "tools": {
         "read": true,
@@ -325,7 +348,8 @@
     "database-engineer": {
       "description": "Database specialist for schema design, query optimization, migrations, and data modeling.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/database-engineer.md}",
       "tools": {
         "read": true,
@@ -338,7 +362,8 @@
     "devops-engineer": {
       "description": "DevOps and infrastructure specialist. Manages CI/CD pipelines, Docker containers, and deployment configurations.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/devops-engineer.md}",
       "tools": {
         "read": true,
@@ -351,7 +376,8 @@
     "integration-engineer": {
       "description": "Third-party integration specialist. Implements external API connections, webhooks, and service connectors.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/integration-engineer.md}",
       "tools": {
         "read": true,
@@ -364,7 +390,8 @@
     "ml-engineer": {
       "description": "Machine learning engineer for model integration, embeddings, inference pipelines, and AI-powered features.",
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/ml-engineer.md}",
       "tools": {
         "read": true,
@@ -377,7 +404,8 @@
     "performance-reviewer": {
       "description": "Performance specialist for identifying bottlenecks, memory issues, latency problems, and optimization opportunities.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/performance-reviewer.md}",
       "tools": {
         "read": true,
@@ -390,7 +418,8 @@
     "accessibility-reviewer": {
       "description": "WCAG compliance specialist for ensuring digital accessibility.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/accessibility-reviewer.md}",
       "tools": {
         "read": true,
@@ -403,7 +432,8 @@
     "qa-engineer": {
       "description": "Quality assurance specialist for test coverage, edge case identification, and regression detection.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-terra",
+      "variant": "medium",
       "prompt": "{file:agents/qa-engineer.md}",
       "tools": {
         "read": true,
@@ -416,7 +446,8 @@
     "synthesis-writer": {
       "description": "Synthesis writer for bootstrap roadmap generation. Writes planning artifacts in parallel during the Synthesis phase.",
       "mode": "subagent",
-      "model": "openai/gpt-5.4-mini-fast",
+      "model": "openai/gpt-5.6-luna",
+      "variant": "low",
       "prompt": "{file:agents/synthesis-writer.md}",
       "tools": {
         "read": true,
@@ -833,7 +864,17 @@
   "provider": {
     "opencode": {
       "models": {
-        "openai/gpt-5.5": {
+        "openai/gpt-5.6-sol": {
+          "options": {
+            "toolStreaming": false
+          }
+        },
+        "openai/gpt-5.6-terra": {
+          "options": {
+            "toolStreaming": false
+          }
+        },
+        "openai/gpt-5.6-luna": {
           "options": {
             "toolStreaming": false
           }
