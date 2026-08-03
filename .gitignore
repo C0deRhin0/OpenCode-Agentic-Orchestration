@@ -9,6 +9,11 @@
 # JIRA config (contains secrets)
 .opencode/scripts/jira-sync/jira-config.env
 
+# Timestamped local OpenCode snapshots (may contain local credentials)
+.opencode/.mcp.json *.json
+.opencode/CHANGELOG-STRUCTURE.md *.md
+.opencode/mcp-configs/mcp-servers.json *.json
+
 # API keys and secrets
 *.key
 *.pem
